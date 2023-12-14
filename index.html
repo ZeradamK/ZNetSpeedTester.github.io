@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>SpeedTestZ</title>
+</head>
+<body>
+    <div class="container">
+
+        <div id="Downloadspeed">
+            <h1><span>Check Your</span><span> Internet Speed</span></h1>
+            <span class="loader hide"></span>
+            <div class="loader-content">
+                <div class="content hide">
+                    24<small>Mbps
+                    </small>
+                </div>
+                <button>TEST SPEED</button>
+            </div>
+        </div>
+        <div id="speedanimations">
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <script>
+        document.querySelector('button').addEventListener('click' , (e)=>{
+            var imgLink = 'https://upload.wikimedia.org/wikipedia/commons/d/d9/Tokyo_Skytree_%281%29.JPG',
+                downloadSize = 3680000,
+                time_start, time_end,
+                downloadSrc = new Image();
+            document.querySelector('.loader-content').classList.add('hide');
+            document.querySelector('.loader').classList.remove('hide');
+            time_start = new Date().getTime();
+            var cacheImg = "?nn=" + time_start;
+            downloadSrc.src = imgLink + cacheImg;
+            console.log(downloadSrc);
+            downloadSrc.onload = function () {
+                //this function will start after the image loads
+                time_end = new Date().getTime();
+                var timeDuration = (time_end - time_start) / 1000,
+                loadedBytes = downloadSize * 8,
+                totalSpeed = ((loadedBytes / timeDuration) / 1024 / 1024).toFixed(2);
+                let i=0, speedOut;
+                const animate = () => {
+                    if (i<totalSpeed){
+                        document.querySelector('.content').innerHTML = i.toFixed(2) + '<small>Mbps</small>';
+                        setTimeout(animate,10); 
+                        i+=1.02;
+                    }
+                    else{
+                        document.querySelector('.content').innerHTML = totalSpeed + '<small>Mbps</small>';
+                    }
+                }
+                animate();
+                document.querySelector('.content').innerHTML = totalSpeed + '<small>Mbps</small>';
+                document.querySelector('.loader-content').classList.remove('hide');
+                document.querySelector('.loader-content').classList.add('result');
+                document.querySelector('.loader').classList.add('hide');
+                document.querySelector('.content').classList.remove('hide');
+                e.target.innerText = 'CHECK AGAIN';
+                
+
+                
+            }
+        })
+
+
+    </script>
+</body>
+</html>
